@@ -4,7 +4,7 @@ using UnityEngine;
 public class DotThreshold : MonoBehaviour
 {
     [SerializeField] private Transform targetTransform;
-    [Range(-1f, 1f)] 
+    [Range(0f, 1f)] 
     [SerializeField] private float threshold;
     [SerializeField] private bool angleThresholdOverride;
     [Range(0f, 180f)]
@@ -32,7 +32,9 @@ public class DotThreshold : MonoBehaviour
         else
         {
             var dotProduct = vectorToTarget.x * lookVector.x + vectorToTarget.y * lookVector.y;
-            _isInThreshold = dotProduct >= threshold ? true : false;
+            
+            //_isInThreshold = dotProduct >= threshold ? true : false;
+            _isInThreshold = Mathf.Acos(dotProduct) / Mathf.PI <= threshold ? true : false;
         }
 
         Gizmos.color = _isInThreshold ? Color.green : Color.red; 
