@@ -17,24 +17,24 @@ public class DotThreshold : MonoBehaviour
         if (!targetTransform) { return; }
 
         var watcherPosition = transform.position;
-        var vectorToTarget = (targetTransform.position - watcherPosition).normalized;
+        var directionToTarget = (targetTransform.position - watcherPosition).normalized;
         var lookVector = transform.right;
 
         if (angleThresholdOverride)
         {
             // Vector3.Dot
-            var dotProduct = vectorToTarget.x * lookVector.x + vectorToTarget.y * lookVector.y;
+            var dotProduct = directionToTarget.x * lookVector.x + directionToTarget.y * lookVector.y;
             // var angle = Mathf.Acos(dotProduct / (vectorToTarget.magnitude * lookAtVector.magnitude)) * Mathf.Rad2Deg;
             var angle = Mathf.Acos(dotProduct) * Mathf.Rad2Deg;
 
-            _isInThreshold = Mathf.Abs(angle) <= Mathf.Abs(angleThreshold) ? true : false;
+            _isInThreshold = Mathf.Abs(angle) <= Mathf.Abs(angleThreshold);
         }
         else
         {
-            var dotProduct = vectorToTarget.x * lookVector.x + vectorToTarget.y * lookVector.y;
+            var dotProduct = directionToTarget.x * lookVector.x + directionToTarget.y * lookVector.y;
             
             //_isInThreshold = dotProduct >= threshold ? true : false;
-            _isInThreshold = Mathf.Acos(dotProduct) / Mathf.PI <= threshold ? true : false;
+            _isInThreshold = Mathf.Acos(dotProduct) / Mathf.PI <= threshold;
         }
 
         Gizmos.color = _isInThreshold ? Color.green : Color.red; 
